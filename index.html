@@ -24,6 +24,8 @@
             font-family: 'Inter', sans-serif;
             background-color: #0a0a0a;
             color: #f5f5f5;
+            /* Correzione per la barra di Google Translate */
+            top: 0px !important; 
         }
         .hero-gradient {
             background: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(120,119,198,0.3),hsla(0,0%,100%,0));
@@ -49,6 +51,47 @@
         .modal-content {
             transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
         }
+
+        /* --- Stili per il Google Translate Widget --- */
+        #google_translate_element {
+            min-width: 130px; /* Larghezza minima per il selettore */
+        }
+        .goog-te-gadget-simple {
+            background-color: transparent !important;
+            border: 1px solid #4a5568 !important;
+            border-radius: 8px !important;
+            padding: 4px 6px !important;
+            display: inline-flex !important;
+            align-items: center;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .goog-te-gadget-simple:hover {
+            border-color: #6366f1 !important;
+        }
+        .goog-te-gadget-simple span {
+            color: #d1d5db !important; /* Testo grigio chiaro */
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .goog-te-gadget-icon {
+            display: none !important;
+        }
+        .goog-te-menu-value {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* Nasconde la barra di Google in alto e altri elementi indesiderati */
+        .skiptranslate iframe {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0px !important;
+            width: 0px !important;
+        }
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -59,15 +102,21 @@
             <div class="flex items-center justify-between h-16">
                 <a href="#hero" class="flex items-center gap-2">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-indigo-500"><path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 7L12 12L22 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 15.5L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15.5L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    <span class="text-xl font-bold text-white">SiteWizard</span>
+                    <span class="text-xl font-bold text-white notranslate">SiteWizard</span>
                 </a>
-                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
-                    <a href="#generator" class="hover:text-white transition-colors">Generatore AI</a>
-                    <a href="#services" class="hover:text-white transition-colors">Servizi</a>
-                    <a href="#team" class="hover:text-white transition-colors">Chi Siamo</a>
-                    <a href="#contact" class="hover:text-white transition-colors">Contatti</a>
-                </nav>
-                <a href="#services" class="hidden md:inline-block bg-indigo-600 text-white px-4 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors">Inizia Ora</a>
+                <div class="flex items-center">
+                    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
+                        <a href="#generator" class="hover:text-white transition-colors">Generatore AI</a>
+                        <a href="#services" class="hover:text-white transition-colors">Servizi</a>
+                        <a href="#team" class="hover:text-white transition-colors">Chi Siamo</a>
+                        <a href="#contact" class="hover:text-white transition-colors">Contatti</a>
+                    </nav>
+                    
+                    <!-- Language Selector (Desktop) -->
+                    <div id="google_translate_element" class="hidden md:block ml-6"></div>
+
+                    <a href="#services" class="hidden lg:inline-block ml-4 bg-indigo-600 text-white px-4 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors">Inizia Ora</a>
+                </div>
                 <button id="mobile-menu-button" class="md:hidden text-white">
                     <i data-lucide="menu"></i>
                 </button>
@@ -80,6 +129,12 @@
                 <a href="#services" class="hover:text-white transition-colors">Servizi</a>
                 <a href="#team" class="hover:text-white transition-colors">Chi Siamo</a>
                 <a href="#contact" class="hover:text-white transition-colors">Contatti</a>
+                
+                <!-- Language Selector (Mobile) -->
+                <div class="pt-2 border-t border-gray-700">
+                    <div id="google_translate_element_mobile" class="w-full"></div>
+                </div>
+
                 <a href="#services" class="w-full text-center bg-indigo-600 text-white px-4 py-2 text-sm font-semibold rounded-lg hover:bg-indigo-700 transition-colors">Inizia Ora</a>
             </nav>
         </div>
@@ -104,6 +159,7 @@
             </div>
         </section>
 
+        <!-- Il resto del sito rimane invariato... -->
         <!-- AI Generator Section -->
         <section id="generator" class="py-20 bg-black/20">
             <div class="container mx-auto px-4">
@@ -223,7 +279,7 @@
             </div>
         </section>
         
-        <!-- Altre sezioni (Team, Contact) come prima -->
+        <!-- Team Section -->
         <section id="team" class="py-20 bg-gray-900/50">
             <div class="container mx-auto px-4">
                  <div class="text-center mb-12">
@@ -252,6 +308,7 @@
             </div>
         </section>
 
+        <!-- Contact Section -->
         <section id="contact" class="py-20">
             <div class="container mx-auto px-4">
                  <div class="text-center mb-12">
@@ -272,6 +329,7 @@
         </section>
     </main>
     
+    <!-- Footer -->
     <footer class="border-t border-gray-800 bg-black">
         <div class="container mx-auto px-4 py-8 text-center text-gray-500 text-sm">
             <p>&copy; 2025 SiteWizard. Tutti i diritti riservati.</p>
@@ -286,13 +344,11 @@
                 <h3 class="text-2xl font-bold text-white mb-2">Completa il tuo ordine</h3>
                 <p class="text-gray-400 mb-6">Inserisci la tua email per ricevere il codice e/o le comunicazioni dal nostro team.</p>
                 
-                <!-- ATTENZIONE: Sostituisci l'action con il tuo endpoint Formspree -->
-                <form id="payment-form" action="https://formspree.io/f/xgvylgdp" method="POST">
+                <form id="payment-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                     <div class="mb-4">
                         <label for="customer-email" class="block text-sm font-medium text-gray-300 mb-1">La tua Email</label>
                         <input type="email" id="customer-email" name="email" required class="w-full bg-gray-800 border border-gray-600 rounded-lg p-3 text-white placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
                     </div>
-
                     <div class="bg-gray-800/50 p-4 rounded-lg mb-6 border border-gray-700">
                         <h4 class="font-semibold text-white mb-2">Riepilogo Ordine:</h4>
                         <div id="modal-summary-items" class="space-y-1 text-sm"></div>
@@ -307,12 +363,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Campi nascosti per inviare i dettagli dell'ordine -->
                     <input type="hidden" name="services_summary" id="hidden-summary">
                     <input type="hidden" name="generated_code" id="hidden-code">
                     <input type="hidden" name="_subject" id="hidden-subject">
-
                     <button type="submit" id="pay-now-button" class="w-full bg-indigo-600 text-white py-3 font-semibold rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 disabled:bg-gray-600">
                         <i data-lucide="lock" class="w-4 h-4"></i>
                         <span>Paga Ora (Simulazione)</span>
@@ -320,7 +373,6 @@
                     <button type="button" id="cancel-payment-button" class="w-full mt-2 text-gray-400 hover:text-white text-sm py-2 rounded-lg transition-colors">Annulla</button>
                 </form>
             </div>
-            
             <div id="modal-view-success" class="hidden text-center">
                  <div class="w-16 h-16 bg-green-500/10 text-green-400 rounded-full mx-auto flex items-center justify-center mb-4">
                      <i data-lucide="check-circle-2" class="w-10 h-10"></i>
@@ -332,6 +384,23 @@
         </div>
     </div>
 
+    <!-- Script Google Translate -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            // Inizializza il widget per desktop
+            new google.translate.TranslateElement({
+                pageLanguage: 'it',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+            
+            // Inizializza il widget per mobile
+            new google.translate.TranslateElement({
+                pageLanguage: 'it',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element_mobile');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <script>
         // --- Inizializzazione ---
@@ -487,7 +556,6 @@
             modal.classList.add('opacity-0');
             setTimeout(() => {
                 modal.classList.add('hidden');
-                // Resetta alla vista form
                 document.getElementById('modal-view-form').classList.remove('hidden');
                 document.getElementById('modal-view-success').classList.add('hidden');
             }, 300);
@@ -498,7 +566,6 @@
         document.getElementById('close-modal-button').addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-
         // --- Logica Invio Form (Simulazione e Formspree) ---
         const paymentForm = document.getElementById('payment-form');
         paymentForm.addEventListener('submit', function(e) {
@@ -506,41 +573,28 @@
             const payButton = document.getElementById('pay-now-button');
             payButton.disabled = true;
             payButton.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Invio...</span>`;
-            
             const formData = new FormData(paymentForm);
-            
-            // Invia i dati a Formspree in background
             fetch(paymentForm.action, {
                 method: 'POST',
                 body: formData,
                 headers: { 'Accept': 'application/json' }
-            }).then(response => {
-                // Gestisci la risposta di Formspree (opzionale)
-                console.log('Formspree response:', response);
-            }).catch(error => {
-                console.error('Formspree error:', error);
-                // Potresti voler gestire l'errore, ma per ora procediamo con la UI
-            });
-
-            // Simulazione del pagamento e cambio di vista
+            }).then(response => console.log('Formspree response:', response))
+              .catch(error => console.error('Formspree error:', error));
             setTimeout(() => {
                 const anyServiceChecked = Array.from(serviceOptions).some(opt => opt.checked && opt.id !== 'service-ads');
                 const successMessageEl = document.getElementById('success-message');
-                
                 if (anyServiceChecked) {
                     successMessageEl.textContent = "Il nostro team ha ricevuto la tua richiesta e ti contatterà a breve sulla mail fornita. Il pagamento è stato elaborato con successo.";
                 } else {
                     successMessageEl.textContent = "Pagamento completato! A breve riceverai un'email con il codice sorgente del tuo sito. Controlla anche la cartella spam.";
                 }
-                
                 document.getElementById('modal-view-form').classList.add('hidden');
                 document.getElementById('modal-view-success').classList.remove('hidden');
-                lucide.createIcons(); // Renderizza l'icona di successo
-                
+                lucide.createIcons();
                 payButton.disabled = false;
                 payButton.innerHTML = `<i data-lucide="lock" class="w-4 h-4"></i><span>Paga Ora (Simulazione)</span>`;
                 lucide.createIcons();
-            }, 1500); // Ritardo per simulare l'elaborazione
+            }, 1500);
         });
 
     </script>
