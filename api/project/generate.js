@@ -27,6 +27,7 @@
 // FUNZIONE: API sicura per generare il codice del sito.
 //           Nasconde la API key di Gemini e logga le richieste.
 // ================================================================================
+export const dynamic = 'force-dynamic'; // Forza l'esecuzione della funzione al runtime
 export default async function handler(request, response) {
     if (request.method !== 'POST') {
         return response.status(405).json({ error: 'Method Not Allowed' });
